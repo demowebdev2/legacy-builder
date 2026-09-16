@@ -1,0 +1,33 @@
+@import "tailwindcss";
+@import "../styles/tokens.css";
+@import "../styles/base.css" layer(base);
+@import "../styles/components.css" layer(components);
+
+/* Expose the prototype tokens to Tailwind utilities (bg-navy, text-gray-2, rounded-card …). */
+@theme inline {
+  --color-navy: var(--navy);
+  --color-navy-2: var(--navy-2);
+  --color-navy-dk: var(--navy-dk);
+  --color-gold: var(--gold);
+  --color-gold-lt: var(--gold-lt);
+  --color-gold-wash: var(--gold-wash);
+  --color-ink: var(--ink);
+  --color-muted: var(--gray);
+  --color-muted-2: var(--gray-2);
+  --color-soft: var(--soft);
+  --color-soft-2: var(--soft-2);
+  --color-line: var(--line);
+  --color-line-2: var(--line-2);
+  --color-ok: var(--green);
+  --color-ok-wash: var(--green-wash);
+  --color-warn: var(--amber);
+  --color-warn-wash: var(--amber-wash);
+  --color-bad: var(--red);
+  --color-bad-wash: var(--red-wash);
+  --color-info: var(--blue);
+  --color-info-wash: var(--blue-wash);
+  --font-heading: var(--fh);
+  --font-body: var(--fb);
+  --radius-card: var(--r);
+  --radius-control: var(--r-s);
+}

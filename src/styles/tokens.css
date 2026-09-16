@@ -1,0 +1,37 @@
+/* ══════════ TOKENS — matched to the approved prototype (Direction D) ══════════ */
+:root {
+  --navy: #0b2440;
+  --navy-2: #153350;
+  --navy-dk: #071a2f;
+  --navy-3: #1e4468;
+  --gold: #c89b3c;
+  --gold-lt: #e8c26a;
+  --gold-wash: #fbf4e6;
+  --ink: #16232f;
+  --gray: #5a6b7b;
+  --gray-2: #8494a3;
+  --bg: #ffffff;
+  --soft: #f5f7f9;
+  --soft-2: #edf1f4;
+  --warm: #fbf9f5;
+  --line: #e2e8ed;
+  --line-2: #cbd5dd;
+  --green: #1e7b58;
+  --green-wash: #e7f4ee;
+  --amber: #b5761a;
+  --amber-wash: #fbf1e1;
+  --red: #b3453b;
+  --red-wash: #fbecea;
+  --blue: #2c5f8d;
+  --blue-wash: #e9f1f8;
+  --fh: var(--font-dm-sans), "DM Sans", system-ui, -apple-system, sans-serif;
+  --fb: var(--font-inter), "Inter", system-ui, -apple-system, sans-serif;
+  --r: 12px;
+  --r-s: 8px;
+  --r-l: 18px;
+  --sh: 0 1px 2px rgba(16, 35, 47, 0.05), 0 4px 14px rgba(16, 35, 47, 0.06);
+  --sh-l: 0 8px 30px rgba(16, 35, 47, 0.1);
+  --sh-xl: 0 24px 60px -20px rgba(7, 26, 47, 0.35);
+  --e: cubic-bezier(0.2, 0.7, 0.3, 1);
+  --sbw: 264px;
+}
