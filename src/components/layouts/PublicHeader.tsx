@@ -41,7 +41,6 @@ export function PublicHeader() {
             </Link>
           ))}
         </nav>
-        <div className="spacer" />
         <div className="b-row phd-cta">
           <ButtonLink href="/for-agents" variant="out" size="s">
             For agents

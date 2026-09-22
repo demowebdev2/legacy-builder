@@ -318,7 +318,10 @@ table.t a.nm:hover,table.t a.rowlink:hover{text-decoration:underline;text-underl
 .pub{background:#fff;min-height:100vh;display:flex;flex-direction:column}
 .pub > main{flex:1}
 .phd{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.94);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
-.phd-in{max-width:1400px;margin:0 auto;padding:.7rem clamp(1rem,3vw,2rem);display:flex;align-items:center;gap:1rem}
+.phd-in{max-width:1400px;margin:0 auto;padding:.7rem clamp(1rem,3vw,2rem);display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:1rem}
+.phd-in > .brand{grid-column:1;grid-row:1;justify-self:start}
+.phd-in > .phd-links{grid-column:2;grid-row:1}
+.phd-in > .phd-cta,.phd-in > .phd-mobile{grid-column:3;grid-row:1;justify-self:end}
 .phd .brand{display:flex;align-items:center;gap:.6rem;background:none;border:0;cursor:pointer}
 .phd .brand svg{width:28px;height:34px}
 .phd .brand b{font-family:var(--fh);font-size:.98rem;display:block;line-height:1.2}
@@ -340,7 +343,7 @@ table.t a.nm:hover,table.t a.rowlink:hover{text-decoration:underline;text-underl
 .phd-links a{padding:.4rem .6rem;border-radius:var(--r-s);font-size:.84rem;font-weight:600;color:var(--gray)}
 .phd-links a:hover,.phd-links a[aria-current="page"]{color:var(--ink);background:var(--soft-2)}
 .phd-mobile{display:none}
-@media(max-width:1020px){.phd-links{display:none}}
+@media(max-width:1020px){.phd-links{display:none}.phd-in{grid-template-columns:minmax(0,1fr) auto}.phd-in > .phd-cta,.phd-in > .phd-mobile{grid-column:2}}
 @media(max-width:820px){.phd-cta{display:none}.phd-mobile{display:grid}}
 .pmenu{border-top:1px solid var(--line);background:#fff;padding:.6rem clamp(1rem,3vw,2rem) 1rem}
 .pmenu a{display:block;padding:.65rem .4rem;font-weight:600;border-bottom:1px solid var(--soft-2)}
