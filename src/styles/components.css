@@ -318,13 +318,13 @@ table.t a.nm:hover,table.t a.rowlink:hover{text-decoration:underline;text-underl
 .pub{background:#fff;min-height:100vh;display:flex;flex-direction:column}
 .pub > main{flex:1}
 .phd{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.94);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
-.phd-in{max-width:1200px;margin:0 auto;padding:.7rem clamp(1rem,3vw,2rem);display:flex;align-items:center;gap:1rem}
+.phd-in{max-width:1400px;margin:0 auto;padding:.7rem clamp(1rem,3vw,2rem);display:flex;align-items:center;gap:1rem}
 .phd .brand{display:flex;align-items:center;gap:.6rem;background:none;border:0;cursor:pointer}
 .phd .brand svg{width:28px;height:34px}
 .phd .brand b{font-family:var(--fh);font-size:.98rem;display:block;line-height:1.2}
 .phd .brand span{font-size:.7rem;color:var(--gray-2);display:block}
 .phd .brand > span{font-size:inherit;color:var(--ink);text-align:left}
-.pw{max-width:1100px;margin:0 auto;padding:clamp(2rem,5vw,4rem) clamp(1rem,3vw,2rem)}
+.pw{max-width:1400px;margin:0 auto;padding:clamp(2rem,5vw,4rem) clamp(1rem,3vw,2rem)}
 .pw-n{max-width:760px}
 .hero{background:linear-gradient(180deg,var(--warm) 0%,#fff 100%);color:var(--ink);padding:clamp(36px,5vw,64px) 0 clamp(30px,4vw,48px)}
 .hero h1{font-size:clamp(2rem,4.4vw,3.3rem);color:var(--ink);margin:.7rem 0 1rem;line-height:1.08}
@@ -346,7 +346,7 @@ table.t a.nm:hover,table.t a.rowlink:hover{text-decoration:underline;text-underl
 .pmenu a{display:block;padding:.65rem .4rem;font-weight:600;border-bottom:1px solid var(--soft-2)}
 .pmenu .b-row{margin-top:.8rem}
 .pft{background:var(--navy-dk);color:#A9BED4;margin-top:auto}
-.pft-in{max-width:1100px;margin:0 auto;padding:2.5rem clamp(1rem,3vw,2rem) 1.5rem}
+.pft-in{max-width:1400px;margin:0 auto;padding:2.5rem clamp(1rem,3vw,2rem) 1.5rem}
 .pft h4{color:#fff;font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.7rem}
 .pft a{display:block;font-size:.85rem;padding:.2rem 0;color:#B9CBDD}
 .pft a:hover{color:#fff}
@@ -500,7 +500,7 @@ table.t a.nm:hover,table.t a.rowlink:hover{text-decoration:underline;text-underl
 .pickbox select,.pickbox input{width:100%;border:1.5px solid var(--line-2);border-radius:var(--r-s);padding:.82rem .9rem;
   font-size:.95rem;background:#fff;outline:none;transition:border-color .16s;min-height:50px}
 .pickbox select:focus,.pickbox input:focus{border-color:var(--navy)}
-.picknote{font-size:.8rem;color:var(--gray-2);margin-top:.7rem;line-height:1.55}
+.picknote,.hero .picknote{font-size:.8rem;color:var(--gray-2);margin-top:.7rem;line-height:1.55;max-width:none}
 .trustrow{display:flex;gap:1.2rem;flex-wrap:wrap;margin-top:1.2rem}
 .trustrow div{display:flex;align-items:center;gap:.45rem;font-size:.86rem;color:var(--gray);font-weight:500}
 .trustrow svg{width:16px;height:16px;stroke:var(--green);fill:none;stroke-width:2.4;flex:none}
@@ -586,7 +586,7 @@ table.t a.nm:hover,table.t a.rowlink:hover{text-decoration:underline;text-underl
 
 /* (new) sticky jump nav (coverage options page) */
 .jump{position:sticky;top:calc(var(--jump-offset,64px));z-index:30;background:rgba(255,255,255,.96);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
-.jump-in{max-width:1100px;margin:0 auto;padding:.85rem clamp(1rem,3vw,2rem);display:flex;align-items:center;gap:.9rem;overflow-x:auto;scrollbar-width:none}
+.jump-in{max-width:1400px;margin:0 auto;padding:.85rem clamp(1rem,3vw,2rem);display:flex;align-items:center;gap:.9rem;overflow-x:auto;scrollbar-width:none}
 .jump-in::-webkit-scrollbar{display:none}
 .jump-lb{font-size:.76rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--gray-2);flex:none}
 .jump button{flex:none;background:var(--soft-2);border:1.5px solid transparent;border-radius:100px;padding:.42rem .9rem;font-size:.84rem;font-weight:600;color:var(--gray);cursor:pointer;transition:all .16s var(--e)}
