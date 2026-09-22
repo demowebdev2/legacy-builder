@@ -24,7 +24,16 @@ import { destinationFor } from "@/hooks/usePostLoginRedirect";
 import { errorMessage } from "@/lib/errors";
 import { focusFirstError, issuesToErrors } from "../postJson";
 import { DetailsStep, EntityStep, LicensingStep, PreferencesStep, PurchaseStep, type Rates, ReviewStep } from "./ApplicationSteps";
-import { type ApplicationData, EMPTY_APPLICATION, endOfDay, localDateString, type PublicReference, type SetField, TOTAL_STEPS } from "./model";
+import {
+  type ApplicationData,
+  EMPTY_APPLICATION,
+  type EntityType,
+  endOfDay,
+  localDateString,
+  type PublicReference,
+  type SetField,
+  TOTAL_STEPS,
+} from "./model";
 
 const STORAGE_KEY = "lb.apply.v1";
 const subscribeNothing = () => () => {};
@@ -35,7 +44,7 @@ interface Saved {
   orderId?: string;
 }
 
-function loadSaved(initialQty: number | undefined): Saved {
+function loadSaved(initialQty: number | undefined, initialEntity: EntityType | undefined): Saved {
   let saved: Saved | null = null;
   try {
     const raw = window.sessionStorage.getItem(STORAGE_KEY);
@@ -56,11 +65,22 @@ function loadSaved(initialQty: number | undefined): Saved {
   if (initialQty && !result.orderId && (!saved || saved.step < 5)) {
     result.data = { ...result.data, quantity: snapPurchaseQuantity(initialQty) };
   }
+  if (initialEntity && !result.orderId && (!saved || saved.step === 1)) {
+    result.data = { ...result.data, entityType: initialEntity };
+  }
   return result;
 }
 
 /** Prototype `P.apply`, adapted per SCREEN-INVENTORY §3 (login creation, per-state licences, TPMO, review, Stripe authorisation). */
-export function ApplicationWizard({ initialQty, initialReference }: { initialQty?: number; initialReference: PublicReference | null }) {
+export function ApplicationWizard({
+  initialQty,
+  initialEntity,
+  initialReference,
+}: {
+  initialQty?: number;
+  initialEntity?: EntityType;
+  initialReference: PublicReference | null;
+}) {
   const mounted = useSyncExternalStore(
     subscribeNothing,
     () => true,
@@ -78,7 +98,7 @@ export function ApplicationWizard({ initialQty, initialReference }: { initialQty
         No card is charged and no lead is released until your licence is verified.
       </p>
       {mounted && reference ? (
-        <Wizard reference={reference} initialQty={initialQty} />
+        <Wizard reference={reference} initialQty={initialQty} initialEntity={initialEntity} />
       ) : (
         <div className="card card-p" aria-busy="true">
           <StepProgress step={1} total={TOTAL_STEPS} />
@@ -94,7 +114,7 @@ export function ApplicationWizard({ initialQty, initialReference }: { initialQty
   );
 }
 
-function Wizard({ reference, initialQty }: { reference: PublicReference; initialQty?: number }) {
+function Wizard({ reference, initialQty, initialEntity }: { reference: PublicReference; initialQty?: number; initialEntity?: EntityType }) {
   const router = useRouter();
   const { signIn, signOut } = useAuthActions();
   const { isAuthenticated, isLoading: authLoading } = useConvexAuth();
@@ -104,7 +124,7 @@ function Wizard({ reference, initialQty }: { reference: PublicReference; initial
   const agreement = useQuery(api.legalDocuments.published, { docType: "agent_agreement" });
   const submitApplication = useMutation(api.applications.submit);
 
-  const [initial] = useState(() => loadSaved(initialQty));
+  const [initial] = useState(() => loadSaved(initialQty, initialEntity));
   const [today] = useState(() => localDateString(Date.now()));
   const [step, setStep] = useState(initial.step);
   const [data, setData] = useState<ApplicationData>(initial.data);

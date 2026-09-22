@@ -14,6 +14,7 @@ export const metadata: Metadata = pageMetadata({
 export default async function ApplyPage({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
   const params = await searchParams;
   const qty = typeof params.qty === "string" ? Number(params.qty) : undefined;
+  const entity = params.entity === "individual" || params.entity === "agency" ? params.entity : undefined;
   const reference = await fetchPublic(api.referenceData.publicData, {});
-  return <ApplicationWizard initialQty={isValidPurchaseQuantity(qty) ? qty : undefined} initialReference={reference} />;
+  return <ApplicationWizard initialQty={isValidPurchaseQuantity(qty) ? qty : undefined} initialEntity={entity} initialReference={reference} />;
 }

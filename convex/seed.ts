@@ -258,14 +258,14 @@ const content = (heroTitle: string, heroBody: string, badge: string, seoTitle: s
   seoDescription,
 });
 
-const PAGES = [
+export const CMS_SEED_PAGES = [
   {
     slug: "home",
     title: "Home",
     content: content(
-      "Find a licensed insurance agent, free.",
-      "Tell us what cover you are looking for. We match you with a licensed independent agent in your state — usually within a business day. No cost, no obligation, no pressure.",
-      "Licensed agents only · 7 Southeast states",
+      "Find a licensed insurance agent in your state.",
+      "Tell us what coverage you are looking for and we connect you with an independent agent licensed where you live — life insurance, final expense, mortgage protection, Medicare and more. Protecting the people counting on you starts with one conversation.",
+      "Every agent licensed and verified",
       "Legacy Builders — Find a licensed insurance agent",
       "Tell us what cover you need. We match you with a licensed independent insurance agent in your state. Free, no obligation.",
     ),
@@ -286,10 +286,10 @@ const PAGES = [
     title: "For agents",
     content: content(
       "Leads you can actually work, at a price you can see.",
-      "Buy the leads you want, from ten up. Two exclusive in every ten. No subscription, no expiry — a lead is drawn down only when it is released to you.",
-      "For licensed producers",
+      "Consented leads matched to the states and product lines you are licensed for, with the consumer's own words about why they are looking. Apply once and we verify your license before anything is released.",
+      "For licensed insurance professionals",
       "For agents — Legacy Builders",
-      "Buy from ten leads up. Two exclusive in every ten. 72-hour disputes.",
+      "Consented leads matched to the states and products you are licensed for. License verified before anything is released.",
     ),
   },
   {
@@ -323,8 +323,8 @@ const PAGES = [
     slug: "coverage-options",
     title: "Coverage options",
     content: content(
-      "What are you looking for?",
-      "Seven types of cover. Pick the closest — an agent will help you narrow it down.",
+      "Types of insurance coverage, explained without the jargon",
+      "You do not need to know which policy is right before you start. This page explains what each type of coverage does, who it tends to suit, and what drives the price, so you are not walking into the conversation blind.",
       "",
       "Coverage options — Legacy Builders",
       "Life, mortgage protection, final expense, retirement, Medicare, annuities and health insurance — matched with a licensed agent in your state.",
@@ -398,7 +398,7 @@ export const seedReference = internalMutation({
         publishedByName: "Seed",
       });
     }
-    for (const page of PAGES) {
+    for (const page of CMS_SEED_PAGES) {
       await ctx.db.insert("cmsPages", { ...page, status: "published", version: 1, publishedAt: now - 4 * DAY, updatedAt: now - 4 * DAY, updatedByName: "Seed" });
     }
     for (const [i, f] of FAQS.entries()) await ctx.db.insert("faqs", { ...f, published: true, sortOrder: i, updatedAt: now });

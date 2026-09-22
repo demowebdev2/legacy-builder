@@ -13,9 +13,10 @@ export const metadata: Metadata = pageMetadata({
 export default async function RequestPage({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
   const params = await searchParams;
   const coverage = typeof params.coverage === "string" ? params.coverage.slice(0, 40) : undefined;
+  const state = typeof params.state === "string" ? params.state.slice(0, 2).toUpperCase() : undefined;
   const [reference, consent] = await Promise.all([
     fetchPublic(api.referenceData.publicData, {}),
     fetchPublic(api.legalDocuments.published, { docType: "consumer_consent" }),
   ]);
-  return <RequestWizard initialCoverage={coverage} initialReference={reference} initialConsent={consent} />;
+  return <RequestWizard initialCoverage={coverage} initialState={state} initialReference={reference} initialConsent={consent} />;
 }

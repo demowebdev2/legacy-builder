@@ -1,5 +1,6 @@
 import { DEFAULT_FORM_OPTIONS, type FormOptionGroup } from "../src/domain/referenceDefaults";
 import { internalMutation } from "./_generated/server";
+import { CMS_SEED_PAGES } from "./seed";
 
 /**
  * One-off migrations run by hand against a deployment with `npx convex run migrations:<name>`.
@@ -39,5 +40,33 @@ export const refreshReferenceCopy = internalMutation({
     }
 
     return { removed, inserted, annuityUpdated: !!annuity };
+  },
+});
+
+/**
+ * Pushes the current seed hero copy to CMS pages that no admin has edited yet (updatedByName is still "Seed").
+ * Admin-edited pages are left untouched. Safe to run more than once.
+ */
+export const refreshCmsHeroCopy = internalMutation({
+  args: {},
+  handler: async (ctx) => {
+    const updated: string[] = [];
+    const skipped: string[] = [];
+    for (const seed of CMS_SEED_PAGES) {
+      const rows = await ctx.db
+        .query("cmsPages")
+        .withIndex("by_slug", (q) => q.eq("slug", seed.slug))
+        .collect();
+      for (const row of rows) {
+        if (row.updatedByName !== "Seed") {
+          skipped.push(seed.slug);
+          continue;
+        }
+        if (JSON.stringify(row.content) === JSON.stringify(seed.content)) continue;
+        await ctx.db.patch(row._id, { content: seed.content, updatedAt: Date.now() });
+        updated.push(seed.slug);
+      }
+    }
+    return { updated, skipped };
   },
 });

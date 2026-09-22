@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
+import { Fragment } from "react";
 import { api } from "@convex/_generated/api";
-import { Hero } from "@/components/public/Hero";
 import { JumpNav } from "@/components/public/JumpNav";
 import { ButtonLink } from "@/components/ui/Button";
 import { Alert } from "@/components/ui/Feedback";
@@ -10,8 +10,9 @@ import { fetchPublic } from "@/lib/convexServer";
 import { pageMetadata } from "@/lib/site";
 
 const FALLBACK = {
-  heroTitle: "What are you looking for?",
-  heroBody: "Seven types of cover, explained in plain language. Pick the closest — an agent will help you narrow it down.",
+  heroTitle: "Types of insurance coverage, explained without the jargon",
+  heroBody:
+    "You do not need to know which policy is right before you start. This page explains what each type of coverage does, who it tends to suit, and what drives the price, so you are not walking into the conversation blind.",
   badge: "",
   seoTitle: "Coverage options — Legacy Builders",
   seoDescription:
@@ -192,6 +193,21 @@ const DETAILS: Record<
   },
 };
 
+const PAGE_ORDER = ["life", "mortgage", "final", "retirement", "annuity", "medicare", "health"];
+const orderOf = (key: string) => {
+  const i = PAGE_ORDER.indexOf(key);
+  return i === -1 ? PAGE_ORDER.length : i;
+};
+const JUMP_LABELS: Record<string, string> = {
+  life: "Life",
+  mortgage: "Mortgage protection",
+  final: "Final expense",
+  retirement: "Retirement",
+  annuity: "Annuities",
+  medicare: "Medicare",
+  health: "Health",
+};
+
 export async function generateMetadata(): Promise<Metadata> {
   const page = await fetchPublic(api.cms.publicPage, { slug: "coverage-options" });
   const c = page?.content ?? FALLBACK;
@@ -201,22 +217,35 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function CoverageOptionsPage() {
   const [page, reference] = await Promise.all([fetchPublic(api.cms.publicPage, { slug: "coverage-options" }), fetchPublic(api.referenceData.publicData, {})]);
   const c = page?.content ?? FALLBACK;
-  const coverage = reference?.coverageTypes?.length ? reference.coverageTypes : DEFAULT_COVERAGE_TYPES;
+  const coverage = [...(reference?.coverageTypes?.length ? reference.coverageTypes : DEFAULT_COVERAGE_TYPES)].sort(
+    (a, b) => orderOf(a.key) - orderOf(b.key),
+  );
 
   return (
     <>
-      <Hero badge={c.badge || undefined} title={c.heroTitle} body={c.heroBody}>
-        <div className="b-row" style={{ marginTop: "1.6rem" }}>
-          <ButtonLink href="/request" variant="gold" size="lg">
-            Get matched free
-          </ButtonLink>
-          <ButtonLink href="/how-it-works" variant="out" size="lg" style={{ background: "transparent", color: "#fff", borderColor: "rgba(255,255,255,.3)" }}>
-            How it works
-          </ButtonLink>
+      <section className="sec" style={{ paddingBottom: "clamp(24px,3vw,36px)" }}>
+        <div className="pw">
+          <div style={{ maxWidth: 720 }}>
+            <span className="eyebrow">Coverage options</span>
+            <h1 className="h1" style={{ fontSize: "clamp(1.8rem,3.4vw,2.6rem)", lineHeight: 1.1 }}>
+              {c.heroTitle}
+            </h1>
+            <p className="lede" style={{ marginTop: ".9rem" }}>
+              {c.heroBody}
+            </p>
+            <div className="b-row" style={{ marginTop: "1.5rem" }}>
+              <ButtonLink href="/request" variant="navy">
+                Get covered today
+              </ButtonLink>
+              <ButtonLink href="/how-it-works" variant="out">
+                See how the process works
+              </ButtonLink>
+            </div>
+          </div>
         </div>
-      </Hero>
+      </section>
 
-      <JumpNav items={coverage.map((p) => ({ id: `c-${p.key}`, label: p.name }))} />
+      <JumpNav items={coverage.map((p) => ({ id: `c-${p.key}`, label: JUMP_LABELS[p.key] ?? p.name }))} />
 
       <div className="pw">
         {coverage.map((p) => {
@@ -224,7 +253,7 @@ export default async function CoverageOptionsPage() {
           return (
             <article className="covblk" id={`c-${p.key}`} key={p.key}>
               <aside className="covrail">
-                <div className="ic">
+                <div className="ic-g">
                   <Icon name={isIconName(p.icon) ? p.icon : "shield"} size={22} />
                 </div>
                 <h2>{p.name}</h2>
@@ -236,7 +265,7 @@ export default async function CoverageOptionsPage() {
               <div className="covbody">
                 <p className="lede">{detail?.lede ?? p.cardDescription}</p>
                 {detail?.blocks.map((b) => (
-                  <div key={b.h}>
+                  <Fragment key={b.h}>
                     <h3>{b.h}</h3>
                     {b.body && <p className="sm">{b.body}</p>}
                     {b.list && (
@@ -246,7 +275,7 @@ export default async function CoverageOptionsPage() {
                         ))}
                       </ul>
                     )}
-                  </div>
+                  </Fragment>
                 ))}
               </div>
             </article>
@@ -255,7 +284,7 @@ export default async function CoverageOptionsPage() {
 
         <article className="covblk" id="c-unsure">
           <aside className="covrail">
-            <div className="ic">
+            <div className="ic-g">
               <Icon name="arrow" size={22} />
             </div>
             <h2>Not sure yet?</h2>

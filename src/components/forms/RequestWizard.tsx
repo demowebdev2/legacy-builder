@@ -75,10 +75,12 @@ const subscribeNothing = () => () => {};
 /** Prototype `P.request`, extended to the five steps of decision D6. */
 export function RequestWizard({
   initialCoverage,
+  initialState,
   initialReference,
   initialConsent,
 }: {
   initialCoverage?: string;
+  initialState?: string;
   initialReference: PublicReference | null;
   initialConsent: PublishedLegalDoc | null;
 }) {
@@ -102,7 +104,7 @@ export function RequestWizard({
         Free, about two minutes, and you are never charged.
       </p>
       {mounted && reference ? (
-        <WizardCard reference={reference} consent={consent} initialCoverage={initialCoverage} />
+        <WizardCard reference={reference} consent={consent} initialCoverage={initialCoverage} initialState={initialState} />
       ) : (
         <div className="card card-p" aria-busy="true">
           <StepProgress step={1} total={TOTAL_STEPS} />
@@ -119,7 +121,7 @@ export function RequestWizard({
   );
 }
 
-function loadSaved(initialCoverage: string | undefined, coverageKeys: string[]): Saved {
+function loadSaved(initialCoverage: string | undefined, initialState: string | undefined, coverageKeys: string[], stateCodes: string[]): Saved {
   let saved: Saved | null = null;
   try {
     const raw = window.sessionStorage.getItem(STORAGE_KEY);
@@ -137,6 +139,10 @@ function loadSaved(initialCoverage: string | undefined, coverageKeys: string[]):
   if (validCoverage && (!saved || saved.step === 1 || !saved.data.coverageType)) {
     result.data = { ...result.data, coverageType: initialCoverage };
   }
+  const validState = initialState && stateCodes.includes(initialState);
+  if (validState && (!saved || saved.step === 1 || !saved.data.state)) {
+    result.data = { ...result.data, state: initialState! };
+  }
   try {
     const gclid = new URLSearchParams(window.location.search).get("gclid");
     if (gclid) result.data = { ...result.data, gclid: gclid.slice(0, 200) };
@@ -146,10 +152,22 @@ function loadSaved(initialCoverage: string | undefined, coverageKeys: string[]):
   return result;
 }
 
-function WizardCard({ reference, consent, initialCoverage }: { reference: PublicReference; consent: PublishedLegalDoc | undefined; initialCoverage?: string }) {
+function WizardCard({
+  reference,
+  consent,
+  initialCoverage,
+  initialState,
+}: {
+  reference: PublicReference;
+  consent: PublishedLegalDoc | undefined;
+  initialCoverage?: string;
+  initialState?: string;
+}) {
   const router = useRouter();
   const coverageKeys = reference.coverageTypes.map((c) => c.key);
-  const [initial] = useState(() => loadSaved(initialCoverage, coverageKeys));
+  const [initial] = useState(() =>
+    loadSaved(initialCoverage, initialState, coverageKeys, reference.servicedStates.map((s) => s.code)),
+  );
   const [step, setStep] = useState(initial.step);
   const [data, setData] = useState<RequestData>(initial.data);
   const [startedAt] = useState(initial.startedAt);

@@ -37,6 +37,9 @@ export function OptionCard({
 }) {
   return (
     <button type="button" className={cn("opt", selected && "sel")} aria-pressed={selected} onClick={onSelect} disabled={disabled} style={style}>
+      <span className="tick" aria-hidden="true">
+        <Icon name="check" />
+      </span>
       <span className="opt-ic">{icon ? <Icon name={icon} /> : badge}</span>
       <span style={{ flex: 1, minWidth: 0 }}>
         <b>{title}</b>
