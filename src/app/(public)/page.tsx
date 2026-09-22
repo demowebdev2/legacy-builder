@@ -262,7 +262,7 @@ export default async function HomePage() {
 
       <section className="sec">
         <div className="pw split2">
-          <div>
+          <div className="sticky-col">
             <span className="eyebrow">What to expect</span>
             <h2 className="h2" style={{ marginBottom: ".8rem" }}>
               No surprises after you submit
@@ -270,9 +270,9 @@ export default async function HomePage() {
             <p className="lede" style={{ marginBottom: "1.6rem" }}>
               Most people have been burned by a form that led to a wall of phone calls. Here is exactly what happens once you send yours.
             </p>
-            <div className="tl">
+            <div className="xtl">
               {EXPECT.map(([title, body], i) => (
-                <div className="tli" key={title}>
+                <div className="xtli" key={title}>
                   <div className="tl-d">{i + 1}</div>
                   <div className="tl-b">
                     <h4 className="h4">{title}</h4>
