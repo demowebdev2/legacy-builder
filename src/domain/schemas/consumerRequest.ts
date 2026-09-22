@@ -13,6 +13,8 @@ const requiredText = (label: string, max = 120) =>
 
 export const coverageStepSchema = z.object({
   coverageType: requiredText("Please choose what you need help with", 40),
+  /** Other products selected in the multi-select picker, informational only — does not affect matching. */
+  additionalCoverageTypes: z.array(z.string().trim().max(40)).max(10).optional().default([]),
 });
 
 export const aboutStepSchema = z.object({

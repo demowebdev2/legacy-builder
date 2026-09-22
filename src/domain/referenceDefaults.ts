@@ -58,7 +58,7 @@ export const DEFAULT_COVERAGE_TYPES = [
   },
   {
     key: "annuity",
-    name: "Fixed index annuity",
+    name: "Fixed index annuities",
     icon: "coin",
     cardDescription: "Growth with protection",
     wizardDescription: "Growth with protection",
@@ -97,37 +97,48 @@ export type FormOptionGroup =
   | "call_time"
   | "budget_range"
   | "contact_method"
-  | "producer_count";
+  | "producer_count"
+  | "request_why";
 
 export const DEFAULT_FORM_OPTIONS: Record<FormOptionGroup, readonly string[]> = {
-  /** prototype AGES */
-  age_range: ["Under 30", "30 – 39", "40 – 49", "50 – 59", "60 – 69", "70 or older"],
-  /** prototype COVER */
+  age_range: ["Under 30", "30 to 39", "40 to 49", "50 to 59", "60 to 69", "70 or older"],
   coverage_amount: [
     "Not sure yet",
-    "Under $50,000",
-    "$50,000 – $100,000",
-    "$100,000 – $250,000",
-    "$250,000 – $500,000",
+    "Under $25,000",
+    "$25,000 to $50,000",
+    "$50,000 to $100,000",
+    "$100,000 to $250,000",
+    "$250,000 to $500,000",
     "Over $500,000",
   ],
-  /** prototype WHOM */
-  protecting: ["Myself", "Myself and a partner", "My children", "A parent or relative", "My business"],
-  /** prototype CALLT */
-  call_time: ["Any time", "Morning (8am – 12pm)", "Afternoon (12pm – 5pm)", "Evening (5pm – 8pm)", "Weekends only"],
-  /** assumption D7 */
+  protecting: ["Myself", "Myself and my spouse or partner", "My children", "A parent or other relative", "My business"],
+  call_time: ["Any time", "Morning, 8am to 12pm", "Afternoon, 12pm to 5pm", "Evening, 5pm to 8pm", "Weekends only"],
   budget_range: [
-    "Not sure yet",
-    "Under $50 a month",
-    "$50 – $100 a month",
-    "$100 – $200 a month",
-    "$200 – $350 a month",
-    "Over $350 a month",
+    "Under $50 per month",
+    "$50 to $100 per month",
+    "$100 to $200 per month",
+    "$200 to $350 per month",
+    "$350 to $500 per month",
+    "Over $500 per month",
+    "I would rather discuss it with the agent",
   ],
-  /** brief: contact preferences */
-  contact_method: ["Phone call", "Text message", "Email"],
+  contact_method: ["Phone call", "Text message", "Email", "No preference"],
   /** prototype agency application */
-  producer_count: ["2 – 5", "6 – 12", "13 – 25", "More than 25"],
+  producer_count: ["2 to 5", "6 to 12", "13 to 25", "More than 25"],
+  /** consumer wizard: closest reason for the request, free-text "notes" appended when relevant */
+  request_why: [
+    "I want to make sure my family is taken care of",
+    "I want to protect my home and mortgage",
+    "I do not want funeral costs falling on my children",
+    "I recently had a child or got married",
+    "Someone close to me passed away",
+    "I am approaching or entering retirement",
+    "I am turning 65 or dealing with Medicare",
+    "I lost coverage through my job",
+    "My current policy is ending or the price went up",
+    "I am just gathering information for now",
+    "Something else",
+  ],
 };
 
 export const LEGAL_DOCUMENT_TYPES = [

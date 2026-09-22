@@ -134,6 +134,7 @@ export const formOptionGroupV = v.union(
   v.literal("budget_range"),
   v.literal("contact_method"),
   v.literal("producer_count"),
+  v.literal("request_why"),
 );
 
 export const rankingWeightsV = v.object({

@@ -37,8 +37,8 @@ export default async function ForAgentsPage() {
           <ButtonLink href="/apply" variant="gold" size="lg">
             Apply to join
           </ButtonLink>
-          <ButtonLink href="/pricing" variant="out" size="lg" style={{ background: "transparent", color: "#fff", borderColor: "rgba(255,255,255,.3)" }}>
-            Agent pricing
+          <ButtonLink href="/auth/login" variant="out" size="lg" style={{ background: "transparent", color: "#fff", borderColor: "rgba(255,255,255,.3)" }}>
+            Agent login
           </ButtonLink>
         </div>
         <div className="row" style={{ gap: "1.4rem", marginTop: "1.8rem", color: "#A9BED4", fontSize: ".85rem" }}>
@@ -90,10 +90,7 @@ export default async function ForAgentsPage() {
               ]}
             />
             <div className="stack" style={{ gap: ".5rem" }}>
-              <ButtonLink href="/pricing" variant="navy" full>
-                See pricing
-              </ButtonLink>
-              <ButtonLink href="/apply" variant="out" full>
+              <ButtonLink href="/apply" variant="navy" full>
                 Apply to join
               </ButtonLink>
             </div>
@@ -104,6 +101,51 @@ export default async function ForAgentsPage() {
           How it works for agents
         </h2>
         <NumberedSteps steps={AGENT_STEPS} />
+
+        <h2 className="h2" style={{ margin: "2.5rem 0 .5rem", textAlign: "center" }}>
+          Solo producer, or a full agency
+        </h2>
+        <p className="sm" style={{ textAlign: "center", maxWidth: 560, margin: "0 auto 1.6rem" }}>
+          Same credit mechanics. What changes is who decides which producer works which lead.
+        </p>
+        <div className="g g2" style={{ gap: "1.2rem", alignItems: "stretch" }}>
+          <Reveal className="card card-p">
+            <h3 className="h3" style={{ margin: ".2rem 0 .5rem" }}>
+              Individual producer
+            </h3>
+            <p className="sm" style={{ marginBottom: "1.2rem" }}>
+              One licensed agent, one login. Leads come straight to you.
+            </p>
+            <CheckList
+              items={[
+                { text: "Producer number and licences verified at signup" },
+                { text: "Choose your states, products and daily limit" },
+                { text: "Simple dashboard: leads, balance, profile" },
+              ]}
+            />
+            <ButtonLink href="/apply" variant="out" full style={{ marginTop: "1rem" }}>
+              Apply as an individual
+            </ButtonLink>
+          </Reveal>
+          <Reveal index={1} className="card card-p card-hl">
+            <h3 className="h3" style={{ margin: ".2rem 0 .5rem" }}>
+              Agency
+            </h3>
+            <p className="sm" style={{ marginBottom: "1.2rem" }}>
+              Two or more producers. Leads are shared at agency level and the principal assigns them internally.
+            </p>
+            <CheckList
+              items={[
+                { text: "Agency EIN, agency licence and principal producer number verified" },
+                { text: "Every producer seat verified before it activates" },
+                { text: "Shared leads, seats included, team view" },
+              ]}
+            />
+            <ButtonLink href="/apply" variant="navy" full style={{ marginTop: "1rem" }}>
+              Apply as an agency
+            </ButtonLink>
+          </Reveal>
+        </div>
 
         <CmsSections sections={c.sections} style={{ marginTop: "2.5rem" }} />
 
@@ -124,8 +166,8 @@ export default async function ForAgentsPage() {
             <p className="sm">Pick a number of leads, apply, and we review your licences before anything is charged.</p>
           </div>
           <div className="b-row">
-            <ButtonLink href="/pricing" variant="out">
-              Agent pricing
+            <ButtonLink href="/auth/login" variant="out">
+              Agent login
             </ButtonLink>
             <ButtonLink href="/apply" variant="gold" iconRight="arrow">
               Apply to join

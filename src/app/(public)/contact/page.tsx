@@ -34,7 +34,7 @@ const SHORTCUTS = [
     heading: "If you are an agent",
     links: [
       { href: "/auth/login", label: "Agent login" },
-      { href: "/pricing", label: "Agent pricing" },
+      { href: "/for-agents", label: "For agents" },
       { href: "/apply", label: "Apply to join" },
     ],
   },

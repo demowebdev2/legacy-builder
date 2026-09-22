@@ -78,7 +78,7 @@ export default async function FaqPage() {
                 </h2>
                 <FaqList items={agent} openFirst />
                 <p className="sm" style={{ marginTop: "1rem" }}>
-                  See <Link className="link" href="/pricing">agent pricing</Link> or <Link className="link" href="/apply">apply to join</Link>.
+                  See <Link className="link" href="/for-agents">for agents</Link> or <Link className="link" href="/apply">apply to join</Link>.
                 </p>
               </section>
             )}

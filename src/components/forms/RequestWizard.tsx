@@ -11,7 +11,7 @@ import { Alert, Skeleton } from "@/components/ui/Feedback";
 import { Checkbox, Field, FieldGrid, Select } from "@/components/ui/Form";
 import { isIconName } from "@/components/ui/Icon";
 import { OptionCard, StepProgress } from "@/components/ui/Wizard";
-import { REASON_MAX_LENGTH, REASON_MIN_LENGTH } from "@/domain/constants";
+import { REASON_MAX_LENGTH } from "@/domain/constants";
 import { UNSURE_COVERAGE_KEY } from "@/domain/referenceDefaults";
 import { aboutStepSchema, consentStepSchema, contactStepSchema, coverageStepSchema, reasonStepSchema } from "@/domain/schemas/consumerRequest";
 import { focusFirstError, issuesToErrors, postJson } from "./postJson";
@@ -24,12 +24,15 @@ const TOTAL_STEPS = 5;
 
 interface RequestData {
   coverageType: string;
+  additionalCoverageTypes: string[];
   ageRange: string;
   state: string;
   zip: string;
   coverageAmount: string;
   protecting: string;
   budgetRange: string;
+  whyReason: string;
+  notes: string;
   reason: string;
   firstName: string;
   lastName: string;
@@ -42,12 +45,15 @@ interface RequestData {
 
 const EMPTY: RequestData = {
   coverageType: "",
+  additionalCoverageTypes: [],
   ageRange: "",
   state: "",
   zip: "",
   coverageAmount: "",
   protecting: "",
   budgetRange: "",
+  whyReason: "",
+  notes: "",
   reason: "",
   firstName: "",
   lastName: "",
@@ -176,6 +182,12 @@ function WizardCard({ reference, consent, initialCoverage }: { reference: Public
   };
 
   const validateStep = (): Record<string, string> => {
+    if (step === 3) {
+      if (!data.whyReason) return { whyReason: "Please choose the closest reason." };
+      if (data.whyReason === "Something else" && data.notes.trim().length < 3) {
+        return { notes: "Tell us a little more in your own words." };
+      }
+    }
     const result =
       step === 1
         ? coverageStepSchema.safeParse(data)
@@ -236,8 +248,29 @@ function WizardCard({ reference, consent, initialCoverage }: { reference: Public
   const options = reference.formOptions;
   const coverageOptions = [
     ...reference.coverageTypes,
-    { key: UNSURE_COVERAGE_KEY, name: "I am not sure", icon: "arrow", wizardDescription: "Help me work it out" },
+    { key: UNSURE_COVERAGE_KEY, name: "I am not sure yet", icon: "arrow", wizardDescription: "Help me work it out" },
   ];
+  const selectedCoverage = data.coverageType ? [data.coverageType, ...data.additionalCoverageTypes] : [];
+  const toggleCoverage = (key: string) => {
+    let next: string[];
+    if (key === UNSURE_COVERAGE_KEY) {
+      next = selectedCoverage.includes(UNSURE_COVERAGE_KEY) ? [] : [UNSURE_COVERAGE_KEY];
+    } else if (selectedCoverage.includes(key)) {
+      next = selectedCoverage.filter((k) => k !== key);
+    } else {
+      next = [...selectedCoverage.filter((k) => k !== UNSURE_COVERAGE_KEY), key];
+    }
+    setData((d) => ({ ...d, coverageType: next[0] ?? "", additionalCoverageTypes: next.slice(1) }));
+    if (errors.coverageType) setErrors((e) => ({ ...e, coverageType: "" }));
+  };
+  const updateReason = (whyReason: string, notes: string) => {
+    const trimmedNotes = notes.trim();
+    const reason = trimmedNotes ? `${whyReason} — ${trimmedNotes}` : whyReason;
+    setData((d) => ({ ...d, whyReason, notes, reason }));
+    if (errors.whyReason) setErrors((e) => ({ ...e, whyReason: "" }));
+    if (errors.notes) setErrors((e) => ({ ...e, notes: "" }));
+    if (errors.reason) setErrors((e) => ({ ...e, reason: "" }));
+  };
 
   return (
     <div className="card card-p" ref={cardRef}>
@@ -255,20 +288,27 @@ function WizardCard({ reference, consent, initialCoverage }: { reference: Public
             What do you need help with?
           </h2>
           <p className="sm" style={{ marginBottom: "1.2rem" }}>
-            Pick the closest match. You can change direction when you speak to the agent.
+            Choose as many as apply. You can change direction when you speak to the agent.
           </p>
           <div className="opts" role="group" aria-label="Type of cover" data-field="coverageType" tabIndex={-1}>
             {coverageOptions.map((p) => (
               <OptionCard
                 key={p.key}
-                selected={data.coverageType === p.key}
-                onSelect={() => update("coverageType", p.key)}
+                selected={selectedCoverage.includes(p.key)}
+                onSelect={() => toggleCoverage(p.key)}
                 icon={isIconName(p.icon) ? p.icon : "shield"}
                 title={p.name}
                 description={p.wizardDescription}
               />
             ))}
           </div>
+          {data.additionalCoverageTypes.length > 0 && (
+            <div className="selsum" style={{ marginTop: "1rem" }}>
+              You have selected {selectedCoverage.length} products. We will match you with an agent primarily on{" "}
+              <b>{coverageOptions.find((p) => p.key === data.coverageType)?.name ?? data.coverageType}</b>, and let them know you are also
+              interested in {selectedCoverage.slice(1).map((k) => coverageOptions.find((p) => p.key === k)?.name ?? k).join(", ")}.
+            </div>
+          )}
           <StepError message={errors.coverageType} />
         </>
       )}
@@ -323,30 +363,37 @@ function WizardCard({ reference, consent, initialCoverage }: { reference: Public
             What is bringing you to Legacy Builders?
           </h2>
           <p className="sm" style={{ marginBottom: "1.2rem" }}>
-            In your own words. A sentence or two helps the agent understand what you need before they call.
+            Pick the closest reason. Add anything else in your own words — it helps the agent understand what you need before they call.
           </p>
+          <Field label="Select the closest reason" required error={errors.whyReason}>
+            <Select
+              name="whyReason"
+              value={data.whyReason}
+              onChange={(e) => updateReason(e.target.value, data.notes)}
+              options={options.request_why ?? []}
+              placeholder="Select the closest reason…"
+            />
+          </Field>
           <Field
-            label="Tell us a little about what you are looking for"
-            required
-            error={errors.reason}
+            label={data.whyReason === "Something else" ? "Tell us a little more" : "Anything else the agent should know? (optional)"}
+            required={data.whyReason === "Something else"}
+            error={errors.notes}
             help={
-              <span className="row-b" style={{ gap: ".5rem" }}>
-                <span>At least {REASON_MIN_LENGTH} characters.</span>
-                <span aria-hidden="true">
-                  {data.reason.length} / {REASON_MAX_LENGTH}
-                </span>
+              <span aria-hidden="true">
+                {data.notes.length} / {REASON_MAX_LENGTH}
               </span>
             }
           >
             <textarea
-              name="reason"
-              rows={6}
+              name="notes"
+              rows={5}
               maxLength={REASON_MAX_LENGTH}
               placeholder="For example: we just had our second child and I want to make sure the mortgage would be covered."
-              value={data.reason}
-              onChange={(e) => update("reason", e.target.value)}
+              value={data.notes}
+              onChange={(e) => updateReason(data.whyReason, e.target.value)}
             />
           </Field>
+          <StepError message={errors.reason} />
         </>
       )}
 
@@ -395,6 +442,10 @@ function WizardCard({ reference, consent, initialCoverage }: { reference: Public
           <p className="sm" style={{ marginBottom: "1.2rem" }}>
             Please read this before you submit. It is not hidden behind a link.
           </p>
+          <div className="selsum">
+            You are asking to be contacted about{" "}
+            <b>{selectedCoverage.map((k) => coverageOptions.find((p) => p.key === k)?.name ?? k).join(", ")}</b>.
+          </div>
           {consent === undefined ? (
             <Skeleton height={160} />
           ) : consent === null ? (

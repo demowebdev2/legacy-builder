@@ -56,8 +56,8 @@ export default async function HomePage() {
           <ButtonLink href="/request" variant="gold" size="lg">
             Get matched free
           </ButtonLink>
-          <ButtonLink href="/pricing" variant="out" size="lg" style={{ background: "transparent", color: "#fff", borderColor: "rgba(255,255,255,.3)" }}>
-            Agent pricing
+          <ButtonLink href="/for-agents" variant="out" size="lg" style={{ background: "transparent", color: "#fff", borderColor: "rgba(255,255,255,.3)" }}>
+            For agents
           </ButtonLink>
         </div>
         <div className="row" style={{ gap: "1.4rem", marginTop: "1.8rem", color: "#A9BED4", fontSize: ".85rem" }}>
@@ -118,6 +118,59 @@ export default async function HomePage() {
           ))}
         </div>
       </div>
+
+      <div style={{ background: "var(--soft)" }}>
+        <div className="pw">
+          <h2 className="h2" style={{ marginBottom: "1.6rem" }}>
+            What people say
+          </h2>
+          <div className="revs">
+            {TESTIMONIALS.map((t, i) => (
+              <Reveal key={t.name} index={i} className="rev">
+                <div className="stars" aria-label="Five out of five">
+                  {Array.from({ length: 5 }).map((_, s) => (
+                    <Icon key={s} name="star" />
+                  ))}
+                </div>
+                <p>{t.quote}</p>
+                <div className="rev-w">
+                  <span className="av">{t.initials}</span>
+                  <span>
+                    <b>{t.name}</b>
+                    <span>{t.location}</span>
+                  </span>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </div>
     </>
   );
 }
+
+/**
+ * Placeholder testimonials carried over from the client-approved design file. Replace with verified
+ * reviews collected from matched consumers before relying on these for marketing claims.
+ */
+const TESTIMONIALS = [
+  {
+    initials: "DO",
+    name: "Denise O.",
+    location: "Macon, GA · Final expense",
+    quote:
+      "I filled in the form on a Sunday evening and had a call Monday morning. No pressure at all, and she explained the difference between term and whole life in plain English.",
+  },
+  {
+    initials: "MW",
+    name: "Marcus W.",
+    location: "Savannah, GA · Mortgage protection",
+    quote: "What I liked was that only one agent called. I have used other sites where you get eight phone calls in an hour. That did not happen here.",
+  },
+  {
+    initials: "RT",
+    name: "Renee T.",
+    location: "Jacksonville, FL · Medicare",
+    quote: "I was mostly just looking for information on Medicare. The agent answered my questions and did not try to sell me anything I did not ask about.",
+  },
+] as const;

@@ -272,6 +272,8 @@ export default defineSchema({
     city: v.optional(v.string()),
     coverageType: v.string(),
     coverageUndetermined: v.boolean(),
+    /** Other products the consumer expressed interest in. Informational only — does not affect distribution matching. */
+    additionalCoverageTypes: v.optional(v.array(v.string())),
     ageRange: v.optional(v.string()),
     coverageAmount: v.optional(v.string()),
     protecting: v.optional(v.string()),

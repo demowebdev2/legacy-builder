@@ -31,7 +31,8 @@ export default async function LegalDocumentPage({ params }: Props) {
     ...candidates.map((t) => fetchPublic(api.legalDocuments.publishedBySlug, { slug: t.slug })),
   ]);
   if (!doc) notFound();
-  const others = candidates.filter((_, i) => !!otherDocs[i]);
+  const publishedTabs = [{ slug, title: doc.title }, ...candidates.filter((_, i) => !!otherDocs[i]).map((t) => ({ slug: t.slug, title: t.title }))];
+  publishedTabs.sort((a, b) => LEGAL_DOCUMENT_TYPES.findIndex((t) => t.slug === a.slug) - LEGAL_DOCUMENT_TYPES.findIndex((t) => t.slug === b.slug));
 
   return (
     <div className="pw pw-n">
@@ -41,10 +42,17 @@ export default async function LegalDocumentPage({ params }: Props) {
         </Link>{" "}
         / Legal
       </nav>
-      <h1 className="h1" style={{ marginBottom: ".4rem" }}>
-        {doc.title}
+      <h1 className="h1" style={{ marginBottom: "1rem" }}>
+        Legal
       </h1>
-      <p className="xs" style={{ marginBottom: "1.4rem" }}>
+      <nav aria-label="Legal documents" style={{ display: "flex", flexWrap: "wrap", gap: ".45rem", marginBottom: "1.6rem" }}>
+        {publishedTabs.map((t) => (
+          <Link key={t.slug} href={`/legal/${t.slug}`} className="jump-tab" aria-current={t.slug === slug ? "page" : undefined}>
+            {t.title}
+          </Link>
+        ))}
+      </nav>
+      <p className="xs" style={{ marginBottom: "1rem" }}>
         Version {doc.version}
         {doc.publishedAt ? ` · published ${formatDate(doc.publishedAt)}` : ""}
       </p>
@@ -52,23 +60,9 @@ export default async function LegalDocumentPage({ params }: Props) {
         <div className="prose">{doc.content}</div>
       </article>
       <div style={{ marginTop: "1.6rem" }}>
-        <div className="eyebrow" style={{ marginBottom: ".5rem" }}>
-          Other documents
-        </div>
-        <ul className="row" style={{ listStyle: "none", gap: ".4rem 1.1rem" }}>
-          {others.map((t) => (
-            <li key={t.slug}>
-              <Link className="link sm" href={`/legal/${t.slug}`}>
-                {t.title}
-              </Link>
-            </li>
-          ))}
-          <li>
-            <Link className="link sm" href="/request/withdraw">
-              Withdraw consent
-            </Link>
-          </li>
-        </ul>
+        <Link className="link sm" href="/request/withdraw">
+          Withdraw consent
+        </Link>
       </div>
     </div>
   );

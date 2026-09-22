@@ -82,8 +82,8 @@ export default async function HowItWorksPage() {
               <p className="sm">No subscription, no expiry — a lead is drawn from your balance only when it is released to you.</p>
             </div>
             <div className="b-row">
-              <ButtonLink href="/pricing" variant="out">
-                Agent pricing
+              <ButtonLink href="/for-agents" variant="out">
+                For agents
               </ButtonLink>
               <ButtonLink href="/apply" variant="navy">
                 Apply to join

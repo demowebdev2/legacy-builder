@@ -8,9 +8,10 @@ import { Icon } from "@/components/ui/Icon";
 import { LogoMark } from "@/components/ui/Logo";
 
 const LINKS = [
+  { href: "/", label: "Home" },
   { href: "/coverage-options", label: "Coverage options" },
   { href: "/how-it-works", label: "How it works" },
-  { href: "/for-agents", label: "For agents" },
+  { href: "/about", label: "About us" },
   { href: "/faq", label: "FAQ" },
   { href: "/contact", label: "Contact" },
 ];
@@ -42,14 +43,11 @@ export function PublicHeader() {
         </nav>
         <div className="spacer" />
         <div className="b-row phd-cta">
-          <ButtonLink href="/pricing" variant="ghost" size="s">
-            Agent pricing
-          </ButtonLink>
-          <ButtonLink href="/apply" variant="out" size="s">
-            Join as an agent
+          <ButtonLink href="/for-agents" variant="out" size="s">
+            For agents
           </ButtonLink>
           <ButtonLink href="/request" variant="navy" size="s">
-            Get matched free
+            Get covered today
           </ButtonLink>
         </div>
         <button type="button" className="burger phd-mobile" aria-label="Menu" aria-expanded={open} aria-controls="public-menu" onClick={() => setOpen((o) => !o)}>
@@ -58,17 +56,17 @@ export function PublicHeader() {
       </div>
       {open && (
         <nav className="pmenu" id="public-menu" aria-label="Mobile">
-          {[...LINKS, { href: "/pricing", label: "Agent pricing" }, { href: "/auth/login", label: "Agent login" }].map((l) => (
+          {LINKS.map((l) => (
             <Link key={l.href} href={l.href}>
               {l.label}
             </Link>
           ))}
+          <div className="pmenu-sep">Insurance professionals</div>
+          <Link href="/for-agents">For agents</Link>
+          <Link href="/auth/login">Agent login</Link>
           <div className="b-row">
             <ButtonLink href="/request" variant="navy" full>
-              Get matched free
-            </ButtonLink>
-            <ButtonLink href="/apply" variant="out" full>
-              Join as an agent
+              Get covered today
             </ButtonLink>
           </div>
         </nav>

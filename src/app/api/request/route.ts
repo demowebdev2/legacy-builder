@@ -33,6 +33,7 @@ export async function POST(request: Request) {
       userAgent: userAgent(request),
       request: {
         coverageType: r.coverageType,
+        additionalCoverageTypes: r.additionalCoverageTypes?.length ? r.additionalCoverageTypes : undefined,
         ageRange: r.ageRange,
         state: r.state,
         zip: r.zip,

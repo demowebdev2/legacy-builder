@@ -40,6 +40,7 @@ export interface NormalizedLead {
   city?: string;
   coverageType: string;
   coverageUndetermined: boolean;
+  additionalCoverageTypes?: string[];
   ageRange?: string;
   coverageAmount?: string;
   protecting?: string;
@@ -171,6 +172,7 @@ export async function ingestLead(
     city: lead.city,
     coverageType: lead.coverageType,
     coverageUndetermined: lead.coverageUndetermined,
+    additionalCoverageTypes: lead.additionalCoverageTypes?.length ? lead.additionalCoverageTypes : undefined,
     ageRange: lead.ageRange,
     coverageAmount: lead.coverageAmount,
     protecting: lead.protecting,
@@ -253,6 +255,7 @@ export const submitWebsiteRequest = mutation({
     userAgent: v.optional(v.string()),
     request: v.object({
       coverageType: v.string(),
+      additionalCoverageTypes: v.optional(v.array(v.string())),
       ageRange: v.string(),
       state: v.string(),
       zip: v.string(),
@@ -297,13 +300,15 @@ export const submitWebsiteRequest = mutation({
 
     let coverageType = r.coverageType;
     let coverageUndetermined = false;
+    const activeCoverage = await loadCoverageTypes(ctx);
     if (coverageType === UNSURE_COVERAGE_KEY) {
       coverageType = "life";
       coverageUndetermined = true;
     } else {
-      const active = await loadCoverageTypes(ctx);
-      if (!active.some((c) => c.key === coverageType)) throw invalid("Please choose what you need help with.");
+      if (!activeCoverage.some((c) => c.key === coverageType)) throw invalid("Please choose what you need help with.");
     }
+    const additionalCoverageTypes = (r.additionalCoverageTypes ?? [])
+      .filter((key) => key !== coverageType && key !== UNSURE_COVERAGE_KEY && activeCoverage.some((c) => c.key === key));
     await assertOption(ctx, "age_range", r.ageRange, "Age range", true);
     await assertOption(ctx, "budget_range", r.budgetRange, "Monthly budget", true);
     await assertOption(ctx, "coverage_amount", r.coverageAmount || undefined, "Cover amount", false);
@@ -346,6 +351,7 @@ export const submitWebsiteRequest = mutation({
         zip: normalizeZip(r.zip)!,
         coverageType,
         coverageUndetermined,
+        additionalCoverageTypes,
         ageRange: r.ageRange,
         coverageAmount: r.coverageAmount || undefined,
         protecting: r.protecting || undefined,
