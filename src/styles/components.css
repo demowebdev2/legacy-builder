@@ -376,6 +376,7 @@ table.t a.nm:hover,table.t a.rowlink:hover{text-decoration:underline;text-underl
 .opt-ic svg{width:16px;height:16px;stroke:var(--gray);fill:none;stroke-width:2}
 .pub .opt-ic svg{stroke:var(--gold)}
 .opt.sel .opt-ic svg{stroke:#fff}
+.opt .opt-ic{display:grid;place-items:center}
 .opt b{display:block;font-size:.88rem;font-weight:600}
 .opt span{display:block;font-size:.77rem;color:var(--gray-2);line-height:1.4}
 .fnav{display:flex;justify-content:space-between;gap:.6rem;margin-top:1.5rem;padding-top:1.2rem;border-top:1px solid var(--line)}
