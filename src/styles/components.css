@@ -379,7 +379,7 @@ table.t a.nm:hover,table.t a.rowlink:hover{text-decoration:underline;text-underl
 .opt b{display:block;font-size:.88rem;font-weight:600}
 .opt span{display:block;font-size:.77rem;color:var(--gray-2);line-height:1.4}
 .opt .tick{display:none}
-.pub .opt .tick{position:absolute;top:8px;right:8px;width:18px;height:18px;border-radius:50%;background:var(--navy);
+.pub .opt .tick{position:absolute;top:6px;left:6px;width:18px;height:18px;border-radius:50%;background:var(--navy);
   display:flex;align-items:center;justify-content:center;opacity:0;transform:scale(.6);transition:all .18s var(--e)}
 .pub .opt .tick svg{width:11px;height:11px;stroke:#fff;fill:none;stroke-width:3}
 .pub .opt.sel .tick{opacity:1;transform:scale(1)}
@@ -599,7 +599,7 @@ table.t a.nm:hover,table.t a.rowlink:hover{text-decoration:underline;text-underl
 
 /* (new) sticky jump nav (coverage options page) */
 .jump{position:sticky;top:calc(var(--jump-offset,64px));z-index:30;background:rgba(255,255,255,.96);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
-.jump-in{max-width:1400px;margin:0 auto;padding:.85rem clamp(1rem,3vw,2rem);display:flex;align-items:center;gap:.9rem;overflow-x:auto;scrollbar-width:none}
+.jump-in{max-width:1180px;margin:0 auto;padding:.85rem clamp(1rem,3vw,2rem);display:flex;align-items:center;gap:.9rem;overflow-x:auto;scrollbar-width:none}
 .jump-in::-webkit-scrollbar{display:none}
 .jump-lb{font-size:.76rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--gray-2);flex:none}
 .jump button{flex:none;background:var(--soft-2);border:1.5px solid transparent;border-radius:100px;padding:.42rem .9rem;font-size:.84rem;font-weight:600;color:var(--gray);cursor:pointer;transition:all .16s var(--e)}
@@ -610,14 +610,15 @@ table.t a.nm:hover,table.t a.rowlink:hover{text-decoration:underline;text-underl
 .jump-tab[aria-current="page"]{background:var(--navy);color:#fff}
 
 /* (new) coverage options page — icon rail + body per product, alternating */
-.covblk{display:grid;grid-template-columns:264px minmax(0,1fr);gap:clamp(1.8rem,4vw,4rem);padding:2.6rem 0;border-bottom:1px solid var(--line);scroll-margin-top:9rem}
+.pw-cov{max-width:1180px}
+.covblk{display:grid;grid-template-columns:264px minmax(0,1fr);gap:clamp(1.8rem,4vw,4rem);max-width:1180px;margin-inline:auto;padding:2.6rem 0;border-bottom:1px solid var(--line);scroll-margin-top:9rem}
 .covblk:last-child{border-bottom:0}
 .covrail{position:sticky;top:9.5rem;align-self:start}
 .covrail .ic-g{width:46px;height:46px;border-radius:var(--r-s);background:var(--gold-wash);display:flex;align-items:center;justify-content:center;margin-bottom:.9rem}
 .covrail .ic-g svg{width:22px;height:22px;stroke:var(--gold);fill:none;stroke-width:1.9}
 .covrail h2{font-size:1.3rem;margin-bottom:.6rem}
 .covfor{margin:.9rem 0;padding:.7rem 0;border-top:1px solid var(--line);font-size:.82rem;color:var(--gray-2)}
-.covbody{max-width:64ch}
+.covbody{max-width:72ch}
 .covbody .lede{font-size:1.06rem;color:var(--ink);margin-bottom:1.6rem}
 .covbody h3{font-size:.8rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--gold);margin:1.7rem 0 .7rem}
 .covbody h3:first-of-type{margin-top:0}

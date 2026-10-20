@@ -224,7 +224,7 @@ export default async function CoverageOptionsPage() {
   return (
     <>
       <section className="sec" style={{ paddingBottom: "clamp(24px,3vw,36px)" }}>
-        <div className="pw">
+        <div className="pw pw-cov">
           <div style={{ maxWidth: 720 }}>
             <span className="eyebrow">Coverage options</span>
             <h1 className="h1" style={{ fontSize: "clamp(1.8rem,3.4vw,2.6rem)", lineHeight: 1.1 }}>
@@ -247,7 +247,7 @@ export default async function CoverageOptionsPage() {
 
       <JumpNav items={coverage.map((p) => ({ id: `c-${p.key}`, label: JUMP_LABELS[p.key] ?? p.name }))} />
 
-      <div className="pw">
+      <div className="pw pw-cov">
         {coverage.map((p) => {
           const detail = DETAILS[p.key];
           return (
