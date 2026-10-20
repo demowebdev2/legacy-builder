@@ -1,3 +1,4 @@
+import { v } from "convex/values";
 import { DEFAULT_FORM_OPTIONS, type FormOptionGroup } from "../src/domain/referenceDefaults";
 import { internalMutation } from "./_generated/server";
 import { CMS_SEED_PAGES } from "./seed";
@@ -48,8 +49,8 @@ export const refreshReferenceCopy = internalMutation({
  * Admin-edited pages are left untouched. Safe to run more than once.
  */
 export const refreshCmsHeroCopy = internalMutation({
-  args: {},
-  handler: async (ctx) => {
+  args: { force: v.optional(v.array(v.string())) },
+  handler: async (ctx, { force }) => {
     const updated: string[] = [];
     const skipped: string[] = [];
     for (const seed of CMS_SEED_PAGES) {
@@ -58,7 +59,7 @@ export const refreshCmsHeroCopy = internalMutation({
         .withIndex("by_slug", (q) => q.eq("slug", seed.slug))
         .collect();
       for (const row of rows) {
-        if (row.updatedByName !== "Seed") {
+        if (row.updatedByName !== "Seed" && !force?.includes(seed.slug)) {
           skipped.push(seed.slug);
           continue;
         }

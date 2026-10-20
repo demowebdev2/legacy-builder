@@ -335,13 +335,13 @@ export const CMS_SEED_PAGES = [
     title: "About",
     content: content(
       "About Legacy Builders",
-      "[Copy to be supplied by the client.] Legacy Builders connects consumers with licensed independent insurance agents across seven Southeast states.",
-      "Licensed agents only · 7 Southeast states",
+      "We believe insurance is about more than policies. It is about protecting families, preserving dreams, and creating security for generations to come.",
+      "Protecting families since day one",
       "About — Legacy Builders",
-      "Legacy Builders connects consumers with licensed independent insurance agents.",
+      "Legacy Builders was built by two moms to connect families with licensed life, health, annuity and mortgage protection professionals.",
       [
-        { heading: "Licensed agents only", body: "Every agent's licences are reviewed state by state before a single lead is released to them." },
-        { heading: "Consent first", body: "Every request is recorded with the exact consent wording the consumer agreed to, and consent can be withdrawn at any time." },
+        { heading: "Why we built Legacy Builders", body: "We are two women, two moms, and two business partners who know firsthand what is at stake. Our own families and children are the reason we take protection so seriously. We have seen how the right coverage can carry a family through life's hardest moments, and how the lack of it can leave loved ones struggling. That is why we built Legacy Builders: to help as many families as possible find the security we want for our own." },
+        { heading: "What we do", body: "We connect life, health, annuity, and mortgage protection professionals with individuals and families seeking guidance during life's most important moments. To us, every lead represents a person, a story, and an opportunity to make a lasting difference. We treat each one the way we would want our own families treated: with care, honesty, and respect." },
       ],
     ),
   },
