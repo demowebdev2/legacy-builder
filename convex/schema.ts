@@ -349,6 +349,17 @@ export default defineSchema({
     ceaseContactNotices: v.number(),
   }).index("by_lead", ["leadId"]),
 
+  /** One-to-one chat between the agent holding an assignment and the consumer (token-authenticated). */
+  leadMessages: defineTable({
+    assignmentId: v.id("leadAssignments"),
+    leadId: v.id("leads"),
+    fromAgent: v.boolean(),
+    senderName: v.string(),
+    senderUserId: v.optional(v.id("users")),
+    body: v.string(),
+    createdAt: v.number(),
+  }).index("by_assignment", ["assignmentId", "createdAt"]),
+
   leadAssignments: defineTable({
     leadId: v.id("leads"),
     accountId: v.id("accounts"),

@@ -6,6 +6,7 @@ import { useEffect, useMemo, useRef } from "react";
 import { api } from "@convex/_generated/api";
 import type { Id } from "@convex/_generated/dataModel";
 import { BalanceDrawCard, DisputeCard, HandoutCard, LeadHistoryCard, LeadWorkCard } from "@/components/agent/LeadActionCards";
+import { LeadChatCard } from "@/components/agent/LeadChatCard";
 import { useAgentAccount } from "@/components/agent/useAgentAccount";
 import { PageHeader } from "@/components/layouts/PortalShell";
 import { ConsentRecordCard } from "@/components/leads/ConsentRecordCard";
@@ -174,6 +175,7 @@ export default function LeadDetailPage() {
 
         <div className="stack">
           <LeadWorkCard data={data} readOnly={readOnly} />
+          <LeadChatCard assignmentId={assignmentId} readOnly={readOnly} />
           {data.canHandOut && <HandoutCard data={data} readOnly={readOnly} state={lead.state} />}
           <DisputeCard data={data} readOnly={readOnly} consumerName={name} />
           <BalanceDrawCard data={data} producer={agent?.producer ?? false} />

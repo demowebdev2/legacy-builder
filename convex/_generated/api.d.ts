@@ -62,6 +62,7 @@ import type * as lib_settings from "../lib/settings.js";
 import type * as lib_validators from "../lib/validators.js";
 import type * as licenses from "../licenses.js";
 import type * as maintenance from "../maintenance.js";
+import type * as messages from "../messages.js";
 import type * as mfa from "../mfa.js";
 import type * as migrations from "../migrations.js";
 import type * as notifications from "../notifications.js";
@@ -142,6 +143,7 @@ declare const fullApi: ApiFromModules<{
   "lib/validators": typeof lib_validators;
   licenses: typeof licenses;
   maintenance: typeof maintenance;
+  messages: typeof messages;
   mfa: typeof mfa;
   migrations: typeof migrations;
   notifications: typeof notifications;

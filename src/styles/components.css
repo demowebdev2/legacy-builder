@@ -635,3 +635,17 @@ table.t select.tsel{padding:.3rem .55rem;border:1.5px solid var(--line-2);border
 table.t select.tsel:focus{outline:0;border-color:var(--navy)}
 table.t select.tsel:disabled{background:var(--soft);color:var(--gray)}
 table.t tr.hl td{background:var(--amber-wash)}
+
+/* (new) lead chat thread — agent lead detail and consumer confirmation page */
+.chat{display:flex;flex-direction:column;gap:.85rem}
+.chat-log{display:flex;flex-direction:column;gap:.7rem;max-height:420px;min-height:140px;overflow-y:auto;padding:.15rem}
+.chat-m{max-width:min(80%,38rem);align-self:flex-start}
+.chat-m.me{align-self:flex-end}
+.chat-b{background:var(--soft);border:1px solid var(--line);border-radius:var(--r);padding:.6rem .8rem;font-size:.9rem;line-height:1.6;white-space:pre-wrap;overflow-wrap:anywhere}
+.chat-m.me .chat-b{background:var(--navy);border-color:var(--navy);color:#fff}
+.chat-meta{font-size:.72rem;color:var(--gray-2);margin-top:.25rem}
+.chat-m.me .chat-meta{text-align:right}
+.chat-form{display:flex;flex-direction:column;gap:.6rem}
+.chat-form textarea{border:1.5px solid var(--line-2);border-radius:var(--r-s);padding:.6rem .75rem;font-size:.9rem;font-family:inherit;resize:vertical;min-height:62px;outline:none}
+.chat-form textarea:focus{border-color:var(--navy)}
+.chat-form .b{align-self:flex-end}

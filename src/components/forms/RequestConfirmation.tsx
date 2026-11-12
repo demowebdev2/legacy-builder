@@ -6,6 +6,7 @@ import { api } from "@convex/_generated/api";
 import { ButtonLink } from "@/components/ui/Button";
 import { Alert, Skeleton } from "@/components/ui/Feedback";
 import { Icon } from "@/components/ui/Icon";
+import { ConsumerChat } from "./ConsumerChat";
 
 /**
  * Prototype "You are all set" card (P.request step 5). Live query, so matched agents' business names appear
@@ -107,6 +108,7 @@ export function RequestConfirmation({ reference, token }: { reference: string; t
           </p>
         )}
       </div>
+      {!result.withdrawn && <ConsumerChat reference={reference} token={token} />}
     </div>
   );
 }
