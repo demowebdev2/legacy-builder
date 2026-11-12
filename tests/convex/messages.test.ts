@@ -80,6 +80,37 @@ describe("lead chat", () => {
     );
   });
 
+  const store = async (content: string, type: string) =>
+    await t.run(async (ctx) => await ctx.storage.store(new Blob([content], { type })));
+
+  it("carries an attachment and keeps the body optional", async () => {
+    const storageId = await store("fake-png", "image/png");
+    await agent.mutation(api.messages.agentSend, { assignmentId, body: "", attachmentId: storageId, attachmentName: "quote.png", attachmentType: "image/png" });
+    const view = await agent.query(api.messages.agentThread, { assignmentId });
+    expect(view?.messages[0].body).toBe("");
+    expect(view?.messages[0].attachment).toMatchObject({ name: "quote.png", type: "image/png" });
+  });
+
+  it("refuses anything that is not an image", async () => {
+    for (const type of ["application/x-sh", "application/pdf"]) {
+      const storageId = await store("payload", type);
+      await expectAppError(
+        agent.mutation(api.messages.agentSend, { assignmentId, body: "look", attachmentId: storageId, attachmentType: type }),
+        "INVALID",
+        /Only image files/,
+      );
+    }
+  });
+
+  it("refuses an attachment over the size limit", async () => {
+    const storageId = await store("x".repeat(10 * 1024 * 1024 + 1), "image/png");
+    await expectAppError(
+      agent.mutation(api.messages.agentSend, { assignmentId, body: "big", attachmentId: storageId, attachmentType: "image/png" }),
+      "INVALID",
+      /10 MB or smaller/,
+    );
+  });
+
   it("rejects empty and oversized messages", async () => {
     await expectAppError(agent.mutation(api.messages.agentSend, { assignmentId, body: "   " }), "INVALID", /Type a message/);
     await expectAppError(agent.mutation(api.messages.agentSend, { assignmentId, body: "x".repeat(2001) }), "INVALID", /under 2000/);

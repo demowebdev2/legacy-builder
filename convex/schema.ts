@@ -357,6 +357,9 @@ export default defineSchema({
     senderName: v.string(),
     senderUserId: v.optional(v.id("users")),
     body: v.string(),
+    attachment: v.optional(
+      v.object({ storageId: v.id("_storage"), name: v.string(), type: v.string(), size: v.number() }),
+    ),
     createdAt: v.number(),
   }).index("by_assignment", ["assignmentId", "createdAt"]),
 

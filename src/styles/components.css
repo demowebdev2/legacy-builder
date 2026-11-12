@@ -649,3 +649,15 @@ table.t tr.hl td{background:var(--amber-wash)}
 .chat-form textarea{border:1.5px solid var(--line-2);border-radius:var(--r-s);padding:.6rem .75rem;font-size:.9rem;font-family:inherit;resize:vertical;min-height:62px;outline:none}
 .chat-form textarea:focus{border-color:var(--navy)}
 .chat-form .b{align-self:flex-end}
+.chat-actions{display:flex;justify-content:space-between;gap:.5rem;align-items:center}
+.chat-img{display:block;border-radius:var(--r);overflow:hidden;border:1px solid var(--line);max-width:260px;margin-bottom:.35rem}
+.chat-img img{display:block;width:100%;height:auto}
+.chat-file{display:inline-flex;align-items:center;gap:.5rem;background:var(--soft);border:1px solid var(--line);border-radius:var(--r);padding:.55rem .75rem;font-size:.85rem;color:var(--ink);margin-bottom:.35rem;max-width:100%;overflow-wrap:anywhere}
+.chat-file svg{width:16px;height:16px;stroke:var(--gray);fill:none;stroke-width:2;flex:none}
+.chat-file small,.chat-pick small{color:var(--gray-2);font-size:.75rem}
+.chat-m.me .chat-file{background:var(--navy);border-color:var(--navy);color:#fff}
+.chat-m.me .chat-file svg{stroke:#fff}
+.chat-pick{display:flex;align-items:center;gap:.5rem;font-size:.85rem;background:var(--soft);border:1px solid var(--line);border-radius:var(--r-s);padding:.45rem .6rem}
+.chat-pick svg{width:15px;height:15px;stroke:var(--gray);fill:none;stroke-width:2;flex:none}
+.chat-pick > span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.chat-pick button{background:none;border:0;cursor:pointer;display:grid;place-items:center;padding:.2rem}

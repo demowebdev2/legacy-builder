@@ -4,12 +4,14 @@ import { useMutation, useQuery } from "convex/react";
 import { useState } from "react";
 import { api } from "@convex/_generated/api";
 import { ChatThread } from "@/components/chat/ChatThread";
+import { uploadAttachment } from "@/components/chat/upload";
 import type { Id } from "@convex/_generated/dataModel";
 
 /** Consumer side of the lead chat — one thread per agent holding the request. */
 export function ConsumerChat({ reference, token }: { reference: string; token: string }) {
   const threads = useQuery(api.messages.consumerThreads, { reference, token });
   const send = useMutation(api.messages.consumerSend);
+  const uploadUrl = useMutation(api.messages.consumerUploadUrl);
   const [active, setActive] = useState<Id<"leadAssignments"> | null>(null);
 
   if (!threads || threads.length === 0) return null;
@@ -47,7 +49,10 @@ export function ConsumerChat({ reference, token }: { reference: string; token: s
         closed={current.closed}
         placeholder={`Message ${current.agentName}…`}
         emptyHint={`No messages yet. Ask ${current.agentName} anything about your cover.`}
-        onSend={async (body) => void (await send({ reference, token, assignmentId: current.assignmentId, body }))}
+        onSend={async (body, file) => {
+          const attachment = await uploadAttachment(file, () => uploadUrl({ reference, token }));
+          await send({ reference, token, assignmentId: current.assignmentId, body, ...attachment });
+        }}
       />
     </div>
   );
